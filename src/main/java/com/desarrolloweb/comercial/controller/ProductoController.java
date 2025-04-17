@@ -1,7 +1,9 @@
 package com.desarrolloweb.comercial.controller;
 
 import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,13 +12,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.desarrolloweb.comercial.model.entity.Categoria;
 import com.desarrolloweb.comercial.model.entity.Producto;
 import com.desarrolloweb.comercial.model.service.ComercialServiceIface;
+import com.desarrolloweb.comercial.utils.paginator.PageRender;
 
 import jakarta.validation.Valid;
 
@@ -32,8 +35,14 @@ public class ProductoController {
     }
 
     @GetMapping("/productoslistar")
-    public String productosListar(Model model) {
-        List<Producto> productos = comercialService.buscarProductosTodos();
+    public String productosListar(@RequestParam(defaultValue = "0") int pag, Model model) {
+
+        Pageable pagina = PageRequest.of(pag, 5);
+        Page<Producto> productos = comercialService.buscarTodosLosProductos(pagina);
+        PageRender<Producto> pageRender = new PageRender<>("/comercial/productoslistar", productos);
+
+        // List<Producto> productos = comercialService.buscarProductosTodos();
+        model.addAttribute("pageRender", pageRender);
         model.addAttribute("titulo", "Listado de productos disponibles");
         model.addAttribute("productos", productos);
         return "producto/listado_productos";
@@ -48,7 +57,8 @@ public class ProductoController {
     }
 
     @PostMapping("/productoguardar")
-    public String productoGuardar(@Valid @ModelAttribute Producto producto, BindingResult result, RedirectAttributes flash, 
+    public String productoGuardar(@Valid @ModelAttribute Producto producto, BindingResult result,
+            RedirectAttributes flash,
             Model model, SessionStatus status) {
 
         String accion = (producto.getId() == null) ? "agregado" : "modificado";
@@ -85,12 +95,10 @@ public class ProductoController {
             if (producto != null) {
                 comercialService.eliminarProductoPorId(id);
                 flash.addFlashAttribute("success", "El producto fue eliminado");
-            }
-            else {
+            } else {
                 flash.addFlashAttribute("warning", "El producto con ID " + id + " no está en la base de datos");
             }
-        }
-        else {
+        } else {
             flash.addFlashAttribute("error", "El ID debería ser un valor positivo");
         }
         return "redirect:/comercial/productoslistar";

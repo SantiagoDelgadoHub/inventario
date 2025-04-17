@@ -63,6 +63,11 @@ public class ComercialService implements ComercialServiceIface{
         // return productoDAO.buscarPorDescripcion(term);
         return productoDAO.findByDescripcionLikeIgnoreCase("%"+term+"%");
     }
+	@Override
+	public Page<Producto> buscarTodosLosProductos(Pageable pageable) {
+
+		return productoDAO.findAll(pageable);
+	}
 	    
     // servicios para Categoría
 
@@ -143,11 +148,7 @@ public class ComercialService implements ComercialServiceIface{
 		return facturaDAO.buscarPorNroFacturaConClienteDetalleProducto(nroFactura);
 	}
 
-	@Override
-	public Page<Producto> buscarTodosLosProductos(Pageable pageable) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'buscarTodosLosProductos'");
-	}
+
 
 
 
