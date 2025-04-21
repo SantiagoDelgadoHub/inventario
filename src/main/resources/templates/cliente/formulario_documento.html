@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head th:replace="~{plantillas/principal :: head}"></head>
+
+<body>
+
+<header th:replace="~{plantillas/principal :: header}"></header>
+
+<div class="container py-4">
+    <div class="card bg-light">
+
+        <h3 class="text-secondary">
+            <span th:text="${titulo}"></span>
+            <span th:text="${cliente.nombreCompleto}"></span>
+        </h3>
+        
+
+        <div class="card-body shadow-lg p-3">
+            <form th:action="@{/comercial/documentosGuardar}" th:object="${documento}" method="post"
+                  enctype="multipart/form-data">
+
+                  <input type="hidden" name="clienteId" th:value="${cliente.id}" />
+
+
+                <div class="mb-3">
+                    <label class="form-label">Descripcion</label>
+                    <input type="text" th:field="*{descripcion}" class="form-control form-control-sm" required />
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('descripcion')}"
+                           th:errors="*{descripcion}"></small>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Estado</label>
+                    <select th:field="*{estado}" class="form-control" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                        <option value="Pendiente">Pendiente</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Ingrese el documento</label>
+                    <input type="file" class="form-control" id="formFile" name="file" required>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Guardar Documento</button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

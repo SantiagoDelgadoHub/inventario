@@ -11,7 +11,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,8 +30,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.desarrolloweb.comercial.model.entity.Cliente;
+import com.desarrolloweb.comercial.model.entity.Documento;
 import com.desarrolloweb.comercial.model.service.ComercialServiceIface;
 import com.desarrolloweb.comercial.utils.paginator.PageRender;
 
@@ -169,8 +168,12 @@ public class ClienteController {
 			flash.addFlashAttribute("warning", "El registro no fue hallado en la base de datos");
 			return "redirect:/comercial/clienteslistar";
 		}
+
+		Documento clienteDocumentos=comercialService.buscarDocumentoPorCliente(id);
+		model.addAttribute("documentos", clienteDocumentos);
 		model.addAttribute("titulo", "Consulta del cliente: " + cliente.getNombreCompleto());
 		model.addAttribute("cliente", cliente);
+		//model.addAttribute("documentos", clienteDocumentos);
 		return "cliente/consulta_cliente";
 	}	
 
@@ -211,4 +214,4 @@ public class ClienteController {
 		}
 		return "redirect:/comercial/clienteslistar";
 	}	
-} // fin clase ClienteController
+} 

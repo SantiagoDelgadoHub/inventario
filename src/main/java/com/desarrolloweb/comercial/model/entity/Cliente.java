@@ -4,9 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.format.annotation.DateTimeFormat;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -73,9 +71,13 @@ public class Cliente implements Serializable {
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Factura> facturas;
 
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Documento> documentos;
+
     public Cliente() {
         facturas = new ArrayList<>();
     }
+
 
     public Cliente(Long id, String tipoIdentificacion, Long identificacion, String nombreCompleto, String direccion,
             String telefono, String correoElectronico, Date fechaIngreso, Integer capacidadCredito) {
@@ -186,6 +188,16 @@ public class Cliente implements Serializable {
     public String toString() {
         return "{identificacion: " + identificacion + ", nombre completo: " + nombreCompleto + ", capacidad crédito: "
                 + capacidadCredito + " ...}";
+    }
+
+
+    public List<Documento> getDocumentos() {
+        return documentos;
+    }
+
+
+    public void setDocumentos(List<Documento> documentos) {
+        this.documentos = documentos;
     }
     
 }

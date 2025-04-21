@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.desarrolloweb.comercial.model.entity.Categoria;
 import com.desarrolloweb.comercial.model.entity.Cliente;
+import com.desarrolloweb.comercial.model.entity.Documento;
 import com.desarrolloweb.comercial.model.entity.Factura;
 import com.desarrolloweb.comercial.model.entity.Producto;
 
@@ -38,4 +39,10 @@ public interface ComercialServiceIface {
 	public Factura buscarFacturaPorNroFactura(Long nroFactura);
 	public void eliminarFacturaPorNroFactura(Long nroFactura);
 	public Factura buscarFacturaPorNroFacturaConClienteDetalleProducto(Long nroFactura);
+
+	// Servicios para Documento
+	public Documento buscarDocumentoPorCliente(Long id);
+	public void guardarDocumento(Documento documento);
+	public void eliminarDocumentoPorId(Long id);
+	public Documento buscarDocumentoPorId(Long id);
 }

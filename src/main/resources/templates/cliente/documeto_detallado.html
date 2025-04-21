@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head th:replace="~{plantillas/principal :: head}"></head>
+
+<body>
+    <header th:replace="~{plantillas/principal :: header}"></header>
+
+
+    <div class="container py-4">
+        <div class="card bg-light">
+
+            <div class="card-header">
+                <h3 class="text-secondary" th:text="${titulo}"></h3>
+            </div>
+
+            <div class="card-body shadow-lg p-3">
+
+                <ul class="list-group">
+                    <li class="list-group-item"><b>Id:</b> <i th:text="${documento.id}"></i></li>
+                    <li class="list-group-item">
+                        <b>Archivo:</b>
+                        <a th:href="@{'/uploads/' + ${documento.nombreDocumento}}" target="_blank">
+                            Ver documento
+                        </a>
+                    </li>
+                </ul>
+
+
+                <ul class="list-group">
+                    <li class="list-group-item"><b>Documento:</b> <i th:text="${documento.nombreDocumento}"></i></li>
+                </ul>
+
+                <ul class="list-group">
+                    <li class="list-group-item"><b>Descripcion:</b> <i th:text="${documento.descripcion}"></i></li>
+                </ul>
+
+                <ul class="list-group">
+                    <li class="list-group-item"><b>Estado:</b> <i th:text="${documento.estado}"></i></li>
+                </ul>
+
+                <ul class="list-group">
+                    <li class="list-group-item"><b>Fecha de carga:</b> <i th:text="${documento.fechaCarga}"></i></li>
+                </ul>
+
+                <ul class="list-group">
+                    <li class="list-group-item"><b>Fecha de creacion:</b> <i th:text="${documento.fechaCreacion}"></i>
+                    </li>
+                </ul>
+
+                <ul class="list-group">
+                    <li class="list-group-item"><b>Fecha de modificacion:</b> <i
+                            th:text="${documento.fechaModificacion}"></i></li>
+                </ul>
+
+                <ul class="list-group">
+                    <li class="list-group-item"><b>Tamaño:</b> <i th:text="${documento.tamanio}"></i></li>
+                </ul>
+
+                <ul class="list-group">
+                    <li class="list-group-item"><b>Tipo de archivo:</b> <i th:text="${documento.tipoArchivo}"></i></li>
+                </ul>
+            </div>
+            <div class="text-right mt-3">
+                <a th:href="@{/comercial/clienteslistar}" class="btn btn-sm btn-light">&laquo; regresar</a>
+            </div>
+
+        </div>
+  
+    </div>
+
+    <footer th:replace="~{plantillas/principal :: footer}"></footer>
+</body>
+
+</html>

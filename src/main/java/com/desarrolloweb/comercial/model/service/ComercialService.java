@@ -2,6 +2,8 @@ package com.desarrolloweb.comercial.model.service;
 
 import java.util.List;
 
+import javax.print.Doc;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -9,10 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.desarrolloweb.comercial.model.dao.CategoriaDAOIface;
 import com.desarrolloweb.comercial.model.dao.ClienteDAOIface;
+import com.desarrolloweb.comercial.model.dao.DocumetoDAOIface;
 import com.desarrolloweb.comercial.model.dao.FacturaDAOIface;
 import com.desarrolloweb.comercial.model.dao.ProductoDAOIface;
 import com.desarrolloweb.comercial.model.entity.Categoria;
 import com.desarrolloweb.comercial.model.entity.Cliente;
+import com.desarrolloweb.comercial.model.entity.Documento;
 import com.desarrolloweb.comercial.model.entity.Factura;
 import com.desarrolloweb.comercial.model.entity.Producto;
 
@@ -23,12 +27,14 @@ public class ComercialService implements ComercialServiceIface{
 	private final CategoriaDAOIface categoriaDAO;
 	private final ClienteDAOIface clienteDAO;
 	private final FacturaDAOIface facturaDAO;
+	private final DocumetoDAOIface documentoDAO;
 
-    public ComercialService(ProductoDAOIface productoDAO, CategoriaDAOIface categoriaDAO, ClienteDAOIface clienteDAO, FacturaDAOIface facturaDAO) {
+    public ComercialService(ProductoDAOIface productoDAO, CategoriaDAOIface categoriaDAO, ClienteDAOIface clienteDAO, FacturaDAOIface facturaDAO,DocumetoDAOIface documentoDAO) {
         this.productoDAO = productoDAO;
 		this.categoriaDAO = categoriaDAO;
 		this.clienteDAO = clienteDAO;
 		this.facturaDAO = facturaDAO;
+		this.documentoDAO = documentoDAO;
     }
     
     // servicios para Producto
@@ -147,6 +153,33 @@ public class ComercialService implements ComercialServiceIface{
 	public Factura buscarFacturaPorNroFacturaConClienteDetalleProducto(Long nroFactura) {
 		return facturaDAO.buscarPorNroFacturaConClienteDetalleProducto(nroFactura);
 	}
+
+	// Servicios para Documento
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Documento buscarDocumentoPorCliente(Long id) {
+		return documentoDAO.buscarDocumentoPorCliente(id);	
+	}
+
+	@Override
+	@Transactional
+	public void guardarDocumento(Documento documento) {
+		documentoDAO.save(documento);
+	}
+
+	@Override
+	@Transactional
+	public void eliminarDocumentoPorId(Long id) {
+		documentoDAO.deleteById(id);
+	}
+	@Override
+	@Transactional
+	public Documento buscarDocumentoPorId(Long id){
+		return documentoDAO.findById(id).orElse(null);
+	}
+
+
 
 
 
